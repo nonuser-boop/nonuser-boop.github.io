@@ -1,45 +1,87 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تحميل الصور من الإنترنت</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <title>نتائج بكالوريا 2025</title>
   <style>
-    body {font-family: 'Cairo', sans-serif; direction: rtl; background: #f0f0f0; padding: 20px;}
-    .container {max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
-    h2 {text-align: center; margin-bottom: 20px;}
-    input, button {width: 100%; padding: 10px; margin-top: 10px; font-size: 16px;}
-    #preview {margin-top: 20px; text-align: center;}
-    img {max-width: 100%; border: 1px solid #ccc; padding: 5px; border-radius: 5px;}
+    body {
+      font-family: Arial;
+      background-color: #f2f2f2;
+      text-align: center;
+      padding: 50px;
+    }
+    .box {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 10px #ccc;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      width: 250px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>تحميل الصور من الإنترنت</h2>
-    <input type="text" id="imgUrl" placeholder="أدخل رابط الصورة هنا">
-    <button onclick="downloadImage()">تحميل الصورة</button>
-    <div id="preview"></div>
+  <div class="box">
+    <h2>استخراج نتائج بكالوريا 2025</h2>
+    <input type="number" id="regNumber" placeholder="أدخل رقم التسجيل"><br>
+    <span id="question"></span><br>
+    <input type="number" id="answer" placeholder="أدخل نتيجة العملية"><br>
+    <button onclick="checkAndGenerate()">استظهار النتيجة</button>
+    <div class="result" id="output"></div>
   </div>
 
   <script>
-    function downloadImage() {
-      const url = document.getElementById('imgUrl').value.trim();
-      if (!url || !url.match(/^https?:\/\//)) {
-        alert("يرجى إدخال رابط صورة صحيح يبدأ بـ http أو https");
+    let a = Math.floor(Math.random() * 10) + 1;
+    let b = Math.floor(Math.random() * 10) + 1;
+    document.getElementById("question").innerText = ما نتيجة ${a} + ${b} ؟;
+
+    function checkAndGenerate() {
+      const reg = document.getElementById("regNumber").value;
+      const ans = document.getElementById("answer").value;
+      const out = document.getElementById("output");
+
+      if (reg < 30000000 || reg > 39999999) {
+        out.innerText = "رقم التسجيل غير صحيح!";
         return;
       }
-      const img = new Image();
-      img.src = url;
-      img.alt = "معاينة الصورة";
-      img.onload = () => {
-        const fileName = url.split('/').pop().split('?')[0];
-        const preview = document.getElementById("preview");
-        preview.innerHTML = `<img src="${url}" alt="Image"><br><a href="${url}" download="${fileName}"><button>تنزيل الصورة</button></a>`;
-      };
-      img.onerror = () => {
-        alert("تعذر تحميل الصورة. تحقق من صحة الرابط.");
-      };
+
+      if (parseInt(ans) !== (a + b)) {
+        out.innerText = "إجابة خاطئة على عملية التحقق!";
+        return;
+      }
+
+      const moyenne = (Math.random() * (19.99 - 10.00) + 10.00).toFixed(2);
+      let mention = "";
+
+      if (moyenne < 12) mention = "مقبول";
+      else if (moyenne < 14) mention = "قريب من الجيد";
+      else if (moyenne < 16) mention = "جيد";
+      else if (moyenne < 18) mention = "جيد جدا";
+      else mention = "ممتاز";
+
+      out.innerHTML = `رقم التسجيل: ${reg}<br>
+        المعدل: ${moyenne} / 20<br>
+        التقدير: ${mention}<br>
+        النتيجة: ناجح 🎉`;
     }
   </script>
 </body>
