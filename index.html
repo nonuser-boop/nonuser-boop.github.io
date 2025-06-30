@@ -1,88 +1,79 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>نتائج بكالوريا 2025</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استظهار نتائج شهادة التعليم الثانوي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial;
-      background-color: #f2f2f2;
-      text-align: center;
-      padding: 50px;
-    }
-    .box {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      display: inline-block;
-      box-shadow: 0 0 10px #ccc;
-    }
-    input {
-      padding: 10px;
-      margin: 10px;
-      width: 250px;
-      font-size: 16px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 18px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-    }
-    .result {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-      color: #333;
-    }
+    body { font-family: 'Cairo', sans-serif; direction: rtl; padding: 20px; background: #f0f0f0; }
+    .container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+    h2 { text-align: center; }
+    input, button { width: 100%; padding: 10px; margin: 10px 0; font-size: 16px; }
+    .result-box { margin-top: 20px; padding: 15px; border: 2px solid #ccc; border-radius: 8px; text-align: center; background: #e9ffe9; }
+    .fail { background: #ffe9e9; border-color: #e00; }
+    strong { font-size: 18px; color: #222; }
+  <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استظهار نتائج بكالوريا 2025</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Cairo',sans-serif;direction:rtl;background:#f0f0f0;padding:20px}
+    .container{max-width:550px;margin:auto;background:#fff;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.2)}
+    h2{text-align:center;margin-bottom:15px}
+    input,button{width:100%;padding:10px;margin:10px 0;font-size:16px}
+    .result-box{margin-top:20px;padding:15px;border:2px solid #ccc;border-radius:8px;text-align:center;background:#e9ffe9}
+    .fail{background:#ffe9e9;border-color:#e00}
+    strong{font-size:18px}
   </style>
 </head>
 <body>
-  <div class="box">
-    <h2>استخراج نتائج بكالوريا 2025</h2>
-    <input type="number" id="regNumber" placeholder="أدخل رقم التسجيل"><br>
-    <span id="question"></span><br>
-    <input type="number" id="answer" placeholder="أدخل نتيجة العملية"><br>
-    <button onclick="checkAndGenerate()">استظهار النتيجة</button>
-    <div class="result" id="output"></div>
+  <div class="container">
+    <h2>استظهار نتائج بكالوريا 2025</h2>
+    <input type="text" id="regInput" placeholder="أدخل رقم التسجيل (30000000 – 39999999)" maxlength="8">
+    <button onclick="showResult()">عرض النتيجة</button>
+    <div id="result"></div>
   </div>
 
-  <script>
-    let a = Math.floor(Math.random() * 10) + 1;
-    let b = Math.floor(Math.random() * 10) + 1;
-    document.getElementById("question").innerText = ما نتيجة ${a} + ${b} ؟;
-
-    function checkAndGenerate() {
-      const reg = document.getElementById("regNumber").value;
-      const ans = document.getElementById("answer").value;
-      const out = document.getElementById("output");
-
-      if (reg < 30000000 || reg > 39999999) {
-        out.innerText = "رقم التسجيل غير صحيح!";
-        return;
-      }
-
-      if (parseInt(ans) !== (a + b)) {
-        out.innerText = "إجابة خاطئة على عملية التحقق!";
-        return;
-      }
-
-      const moyenne = (Math.random() * (19.99 - 10.00) + 10.00).toFixed(2);
-      let mention = "";
-
-      if (moyenne < 12) mention = "مقبول";
-      else if (moyenne < 14) mention = "قريب من الجيد";
-      else if (moyenne < 16) mention = "جيد";
-      else if (moyenne < 18) mention = "جيد جدا";
-      else mention = "ممتاز";
-
-      out.innerHTML = `رقم التسجيل: ${reg}<br>
-        المعدل: ${moyenne} / 20<br>
-        التقدير: ${mention}<br>
-        النتيجة: ناجح 🎉`;
-    }
-  </script>
+<script>
+function pseudoRandomAvg(reg){
+  // توليد معدل شبه عشوائي ثابت لكل رقم باستخدام معادلة بسيطة
+  const num=Number(reg);
+  const val=((num % 100000)*37)%2000; // 0 .. 1999
+  return +(val/100).toFixed(2); // 0.00 .. 19.99
+}
+function gradeText(avg){
+  if(avg<10) return "راسب";
+  return "ناجح";
+}
+function mention(avg){
+  if(avg<10) return "راسب";
+  if(avg<12) return "مقبول";
+  if(avg<14) return "جيد";
+  if(avg<16) return "جيد جدًا";
+  if(avg<18) return "ممتاز";
+  return "امتياز";
+}
+function showResult(){
+  const reg=document.getElementById('regInput').value.trim();
+  const box=document.getElementById('result');
+  if(!/^3[0-9]{7}$/.test(reg)){
+    box.innerHTML='<div class="result-box fail">الرجاء إدخال رقم تسجيل صالح (8 أرقام من 30000000 إلى 39999999).</div>';
+    return;
+  }
+  const avg=pseudoRandomAvg(reg);
+  const status=gradeText(avg);
+  const note=mention(avg);
+  box.innerHTML=`<div class="result-box ${status==='راسب'?'fail':''}">\
+    <strong>رقم التسجيل:</strong> ${reg}<br>\
+    <strong>الحالة:</strong> ${status}<br>\
+    <strong>المعدل:</strong> ${avg.toFixed(2)}/20<br>\
+    <strong>التقدير:</strong> ${note}\
+  </div>`;
+}
+</script>
 </body>
 </html>
