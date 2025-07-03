@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>استخراج نتائج المسابقة</title>
 
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- طباعة النتيجة فقط -->
   <style>
     @media print {
       body * {
@@ -152,8 +150,8 @@
     ];
 
     function lookup() {
-      const fn = document.getElementById('firstName').value.trim();
-      const ln = document.getElementById('lastName').value.trim();
+      const fn = document.getElementById('firstName').value.trim().toLowerCase();
+      const ln = document.getElementById('lastName').value.trim().toLowerCase();
       const reg = document.getElementById('regNumber').value.trim();
 
       const errorAlert = document.getElementById('errorAlert');
@@ -169,7 +167,10 @@
       }
 
       const candidate = candidates.find(
-        c => c.firstName === fn && c.lastName === ln && c.regNumber === reg
+        c =>
+          c.firstName.trim().toLowerCase() === fn &&
+          c.lastName.trim().toLowerCase() === ln &&
+          c.regNumber.trim() === reg
       );
 
       if (!candidate) {
