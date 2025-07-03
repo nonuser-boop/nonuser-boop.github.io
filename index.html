@@ -5,179 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>استخراج نتائج المسابقة</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @media print {
-      body * { visibility: hidden !important; }
-      #printArea, #printArea * { visibility: visible !important; }
-      #printArea { position: absolute; inset: 0; }
-    }
-  </style>
 </head>
 <body class="bg-gray-100 p-6 font-sans">
-  <div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6">
-    <h1 class="text-2xl font-bold mb-4 text-center">منصة استخراج نتائج المسابقة</h1>
+  <div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6 text-center">
+    <h1 class="text-2xl font-bold mb-6">منصة استخراج نتائج المسابقة</h1>
 
-    <!-- Lookup Form -->
-    <form id="lookupForm" class="space-y-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <label class="block">
-          <span class="text-gray-700">الاسم</span>
-          <input id="firstName" type="text" required placeholder="مثال: أمين"
-                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-        </label>
-        <label class="block">
-          <span class="text-gray-700">اللقب</span>
-          <input id="lastName" type="text" required placeholder="مثال: بوشامة"
-                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-        </label>
-        <label class="block md:col-span-2">
-          <span class="text-gray-700">رقم التسجيل</span>
-          <input id="regNumber" type="text" required placeholder="مثال: 1234567"
-                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-        </label>
-      </div>
-      <div class="flex justify-end">
-        <button id="searchBtn" type="button"
-                class="px-6 py-2 bg-blue-600 text-white rounded-lg shadow">عرض النتيجة</button>
-      </div>
-    </form>
+    <p class="text-lg text-red-600 font-semibold">
+      ⚠️ سيتم الإعلان عن النتائج الدور النهائي بعد اجراء المسابقة اليوم في 3 جويلية 2025. يرجى الانتظار حتى تاريخ الاجراء .
+    </p>
 
-    <!-- Result Card -->
-    <div id="resultCard" class="hidden mt-6" dir="rtl">
-      <div id="printArea" class="bg-white border border-gray-300 rounded-lg p-4 space-y-4">
-        <h2 class="text-xl font-semibold text-center">بطاقة نتيجــة المترشح</h2>
-        <div class="grid grid-cols-2 gap-4 text-lg">
-          <div><span class="font-semibold">الاسم:</span> <span id="resFirstName"></span></div>
-          <div><span class="font-semibold">اللقب:</span> <span id="resLastName"></span></div>
-          <div><span class="font-semibold">رقم التسجيل:</span> <span id="resReg"></span></div>
-          <div><span class="font-semibold">المعدل:</span> <span id="resAvg"></span></div>
-          <div class="col-span-2"><span class="font-semibold">الحالة:</span> <span id="resStatus" class="font-bold"></span></div>
-        </div>
+    <p class="mt-4 text-gray-700">تابع موقعنا الرسمي أو تواصل مع المؤسسة لمعرفة توقيت إعلان النتائج.</p>
 
-        <!-- Marks Table -->
-        <table class="min-w-full border border-gray-300 text-center mt-4">
-          <thead class="bg-gray-200">
-            <tr>
-              <th class="border border-gray-300 px-2 py-1">المادة</th>
-              <th class="border border-gray-300 px-2 py-1">العلامة</th>
-            </tr>
-          </thead>
-          <tbody id="marksBody"></tbody>
-        </table>
-      </div>
-
-      <div class="flex justify-end mt-4">
-        <button id="printBtn" type="button" class="px-6 py-2 bg-green-600 text-white rounded-lg shadow">طباعة النتيجة</button>
-      </div>
+    <div class="mt-6">
+      <a href="#" class="text-blue-600 hover:underline"></a>
     </div>
-
-    <!-- Error Alert -->
-    <div id="errorAlert" class="hidden mt-6 p-4 bg-red-100 text-red-800 rounded-lg"></div>
   </div>
-
-  <script>
-    // بيانات المترشحين
-    const candidates = [
-      {
-        firstName: 'أمين',
-        lastName: 'بوشامة',
-        regNumber: '1234567',
-        average: 8.75,
-        status: 'ناجح - ينتقل إلى الدور النهائي',
-        marks: {
-          'اللغة العربية': 9,
-          'الرياضيات': 7.5,
-          'اللغة الإنجليزية': 10,
-          'العلوم الإسلامية': 8.5
-}
-  },
-  {
-    firstName: 'شيماء',
-    lastName: 'بن دحمان',
-    regNumber: '5550707',
-    average: 7.25,
-    status: 'ناجحة - تنتقل إلى الدور النهائي',
-    marks: {
-      'اللغة العربية': 6,
-      'الرياضيات': 4,
-      'اللغة الإنجليزية': 10,
-      }
-  },
-  {
-    firstName: 'نوح',
-    lastName: 'بن دحمان',
-    regNumber: '5550710',
-    average: 0.16,
-    status: 'راسب - خارج من المسابقة ',
-    marks: {
-      'اللغة العربية': 0.5,
-      'الرياضيات': 0,
-      'اللغة الإنجليزية': 0,
-      'العلوم الإسلامية': 0
-    }
-},
-  {
-    firstName: 'لؤي',
-    lastName: 'جابوربي',
-    regNumber: '5550709',
-    average: 2.81,
-    status: 'ناجح ينتقل للدور نهائي ',
-    marks: {
-      'اللغة العربية': 1,
-      'الرياضيات': 0,
-      'اللغة الإنجليزية': 0,
-      'العلوم الإسلامية': 10
-    }
-      }
-    ];
-
-    const lookup = () => {
-      const fn = document.getElementById('firstName').value.trim();
-      const ln = document.getElementById('lastName').value.trim();
-      const reg = document.getElementById('regNumber').value.trim();
-      const errorAlert = document.getElementById('errorAlert');
-      const resultCard = document.getElementById('resultCard');
-
-      errorAlert.classList.add('hidden');
-      resultCard.classList.add('hidden');
-
-      if (!fn || !ln || !reg) {
-        errorAlert.textContent = 'يرجى ملء جميع الحقول.';
-        errorAlert.classList.remove('hidden');
-        return;
-      }
-
-      const candidate = candidates.find(c =>
-        c.firstName === fn && c.lastName === ln && c.regNumber === reg
-      );
-
-      if (!candidate) {
-        errorAlert.textContent = 'عذراً، لم يتم العثور على نتيجة بهذه البيانات.';
-        errorAlert.classList.remove('hidden');
-        return;
-      }
-
-      // تعبئة البطاقة
-      document.getElementById('resFirstName').textContent = candidate.firstName;
-      document.getElementById('resLastName').textContent = candidate.lastName;
-      document.getElementById('resReg').textContent = candidate.regNumber;
-      document.getElementById('resAvg').textContent = candidate.average;
-      document.getElementById('resStatus').textContent = candidate.status;
-
-      const marksBody = document.getElementById('marksBody');
-      marksBody.innerHTML = '';
-      Object.entries(candidate.marks).forEach(([subject, mark]) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td class="border border-gray-300 px-2 py-1">${subject}</td><td class="border border-gray-300 px-2 py-1">${mark}</td>`;
-        marksBody.appendChild(tr);
-      });
-
-      resultCard.classList.remove('hidden');
-      resultCard.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    document.getElementById('searchBtn').addEventListener('click', lookup);
-    document.getElementById('printBtn').addEventListener('click', () => window.print());
-  </script>
 </body>
 </html>
