@@ -5,68 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>استخراج نتائج المسابقة</title>
 
-  <!-- Tailwind CDN -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- طباعة البطاقة فقط -->
+  <!-- طباعة النتيجة فقط -->
   <style>
     @media print {
-      body * { visibility: hidden !important; }
-      #printArea, #printArea * { visibility: visible !important; }
-      #printArea { position: absolute; inset: 0; }
+      body * {
+        visibility: hidden !important;
+      }
+      #printArea, #printArea * {
+        visibility: visible !important;
+      }
+      #printArea {
+        position: absolute;
+        inset: 0;
+        padding: 2rem;
+      }
     }
   </style>
 </head>
 
 <body class="bg-gray-100 p-6 font-sans">
   <div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6">
-    <h1 class="text-2xl font-bold mb-4 text-center">
-      منصة استخراج نتائج المسابقة
-    </h1>
+    <h1 class="text-2xl font-bold mb-6 text-center">منصة استخراج نتائج المسابقة</h1>
 
     <!-- نموذج البحث -->
     <form id="lookupForm" class="space-y-4" onsubmit="event.preventDefault(); lookup();">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label class="block">
           <span class="text-gray-700">الاسم</span>
-          <input
-            id="firstName"
-            type="text"
-            required
-            placeholder="مثال: أمين"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200"
-          />
+          <input id="firstName" type="text" required placeholder="مثال: أمين"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200" />
         </label>
 
         <label class="block">
           <span class="text-gray-700">اللقب</span>
-          <input
-            id="lastName"
-            type="text"
-            required
-            placeholder="مثال: بوشامة"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200"
-          />
+          <input id="lastName" type="text" required placeholder="مثال: بوشامة"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200" />
         </label>
 
         <label class="block md:col-span-2">
           <span class="text-gray-700">رقم التسجيل</span>
-          <input
-            id="regNumber"
-            type="text"
-            required
-            placeholder="مثال: 1234567"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200"
-          />
+          <input id="regNumber" type="text" required placeholder="مثال: 1234567"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200" />
         </label>
       </div>
 
       <div class="flex justify-end">
-        <button
-          id="searchBtn"
-          type="submit"
-          class="px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
-        >
+        <button type="submit"
+          class="px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
           عرض النتيجة
         </button>
       </div>
@@ -76,18 +64,14 @@
     <div id="resultCard" class="hidden mt-6">
       <div id="printArea" class="bg-white border border-gray-300 rounded-lg p-4 space-y-4">
         <h2 class="text-xl font-semibold text-center">بطاقة نتيجــة المترشح</h2>
-
         <div class="grid grid-cols-2 gap-4 text-lg">
           <div><span class="font-semibold">الاسم:</span> <span id="resFirstName"></span></div>
           <div><span class="font-semibold">اللقب:</span> <span id="resLastName"></span></div>
           <div><span class="font-semibold">رقم التسجيل:</span> <span id="resReg"></span></div>
           <div><span class="font-semibold">المعدل:</span> <span id="resAvg"></span></div>
-          <div class="col-span-2">
-            <span class="font-semibold">الحالة:</span> <span id="resStatus" class="font-bold"></span>
-          </div>
+          <div class="col-span-2"><span class="font-semibold">الحالة:</span> <span id="resStatus" class="font-bold"></span></div>
         </div>
 
-        <!-- جدول العلامات -->
         <table class="min-w-full border border-gray-300 text-center mt-4">
           <thead class="bg-gray-200">
             <tr>
@@ -100,25 +84,19 @@
       </div>
 
       <div class="flex justify-end mt-4">
-        <button
-          id="printBtn"
-          type="button"
-          class="px-6 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition"
-        >
+        <button id="printBtn" type="button"
+          class="px-6 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition">
           طباعة النتيجة
         </button>
       </div>
     </div>
 
-    <!-- إشعار الأخطاء -->
-    <div
-      id="errorAlert"
-      class="hidden mt-6 p-4 bg-red-100 text-red-800 rounded-lg"
-    ></div>
+    <!-- إشعار الخطأ -->
+    <div id="errorAlert" class="hidden mt-6 p-4 bg-red-100 text-red-800 rounded-lg text-center"></div>
   </div>
 
+  <!-- سكريبت -->
   <script>
-    /* بيانات المترشحين */
     const candidates = [
       {
         firstName: 'أمين',
@@ -150,7 +128,7 @@
         lastName: 'زيرق',
         regNumber: '5550708',
         average: 4.25,
-        status: 'ناجح - الانتقال للدور النهائي و الاخير ',
+        status: 'ناجح - الانتقال للدور النهائي و الاخير',
         marks: {
           'معدل الدورة الأولى': 4,
           'علوم إسلامية': 5,
@@ -163,7 +141,7 @@
         lastName: 'جابوري',
         regNumber: '5550709',
         average: 4.04,
-        status: 'راسب ',
+        status: 'راسب',
         marks: {
           'الرياضة': 3,
           'الرياضيات': 5,
@@ -173,7 +151,6 @@
       }
     ];
 
-    /* دالة البحث عن المترشح */
     function lookup() {
       const fn = document.getElementById('firstName').value.trim();
       const ln = document.getElementById('lastName').value.trim();
@@ -185,19 +162,14 @@
       errorAlert.classList.add('hidden');
       resultCard.classList.add('hidden');
 
-      /* التحقّق من ملء الحقول */
       if (!fn || !ln || !reg) {
         errorAlert.textContent = 'يرجى ملء جميع الحقول.';
         errorAlert.classList.remove('hidden');
         return;
       }
 
-      /* البحث (غير حساس لحالة الأحرف) */
       const candidate = candidates.find(
-        c =>
-          c.firstName.toLowerCase() === fn.toLowerCase() &&
-          c.lastName.toLowerCase() === ln.toLowerCase() &&
-          c.regNumber === reg
+        c => c.firstName === fn && c.lastName === ln && c.regNumber === reg
       );
 
       if (!candidate) {
@@ -206,31 +178,27 @@
         return;
       }
 
-      /* تعبئة البطاقة */
       document.getElementById('resFirstName').textContent = candidate.firstName;
       document.getElementById('resLastName').textContent = candidate.lastName;
       document.getElementById('resReg').textContent = candidate.regNumber;
       document.getElementById('resAvg').textContent = candidate.average.toFixed(2);
       document.getElementById('resStatus').textContent = candidate.status;
 
-      /* جدول العلامات */
       const marksBody = document.getElementById('marksBody');
       marksBody.innerHTML = '';
+
       for (const [subject, mark] of Object.entries(candidate.marks)) {
-        marksBody.insertAdjacentHTML(
-          'beforeend',
-          `<tr>
-             <td class="border border-gray-300 px-2 py-1">${subject}</td>
-             <td class="border border-gray-300 px-2 py-1">${mark}</td>
-           </tr>`
-        );
+        marksBody.innerHTML += `
+          <tr>
+            <td class="border border-gray-300 px-2 py-1">${subject}</td>
+            <td class="border border-gray-300 px-2 py-1">${mark}</td>
+          </tr>`;
       }
 
       resultCard.classList.remove('hidden');
       resultCard.scrollIntoView({ behavior: 'smooth' });
     }
 
-    /* أزرار */
     document.getElementById('printBtn').addEventListener('click', () => window.print());
   </script>
 </body>
