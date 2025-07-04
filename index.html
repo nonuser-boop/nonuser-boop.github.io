@@ -1,51 +1,80 @@
-<!DOCTYPE html>
-<html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>نتائج الامتحان</title>
-  <style>
-    body {
-      direction: rtl;
-      font-family: Arial, sans-serif;
-      background-color: #f0f8ff;
-      text-align: center;
-      padding-top: 50px;
-    }
-    input, button {
-      font-size: 18px;
-      padding: 10px;
-      margin: 10px;
-    }
-    #result {
-      margin-top: 20px;
-      font-size: 20px;
-      color: green;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة استظهار النتائج</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 space-y-4">
+    <h1 class="text-2xl font-bold text-center mb-4">منصة استظهار النتائج</h1>
 
-  <h2>اِسْتَظْهِر نتيجتك</h2>
+    <label for="regNum" class="block font-medium mb-2">أدخل رقم التسجيل:</label>
+    <input type="text" id="regNum" class="w-full border rounded-xl p-2 text-right focus:outline-none focus:ring" placeholder="مثال: 5550702" />
 
-  <input type="text" id="regNumber" placeholder="أدخل رقم التسجيل">
-  <button onclick="checkResult()">عرض النتيجة</button>
+    <button id="searchBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2 transition">استظهار</button>
 
-  <div id="result"></div>
+    <div id="resultArea" class="hidden mt-4 border-t pt-4 space-y-2">
+      <p><span class="font-semibold">الاسم و اللقب: </span><span id="studentName"></span></p>
+      <p><span class="font-semibold">المعدل: </span><span id="studentAvg"></span></p>
+      <p><span class="font-semibold">الحالة: </span><span id="studentStatus"></span></p>
+      <p id="rankRow"><span class="font-semibold">المرتبة: </span><span id="studentRank"></span></p>
+    </div>
+
+    <p id="errorMsg" class="hidden text-red-600 text-center font-semibold"></p>
+  </div>
 
   <script>
-    function checkResult() {
-      var reg = document.getElementById("regNumber").value;
-      var resultDiv = document.getElementById("result");
+    // قاعدة بيانات الطلاب
+    const students = {
+      "5550702": { name: "قيرود ابتسام", avg: "5.01", status: "راسبة", rank: null },
+      "5550710": { name: "نوح بن دحمان", avg: "5.01", status: "ناجح", rank: "الرابعة" },
+      "5550712": { name: "مايا قيرود", avg: "6.46", status: "ناجحة", rank: "الثانية" },
+      "5550707": { name: "شيماء بن دحمان", avg: "5.57", status: "ناجحة", rank: "الثالثة" },
+      "5550711": { name: "زيرق الياس", avg: "3.86", status: "راسب", rank: null },
+      "5550713": { name: "قيرود سمية", avg: "7.43", status: "ناجحة", rank: "الأولى" }
+    };
 
-      if (reg === "5550707") {
-        resultDiv.innerHTML = "الاسم: <strong>شيماء بن دحمان</strong><br>النتيجة: <span style='color: green;'>ناجحة</span><br>المعدل: 6.18";
-      } else if (reg === "5550708") {
-        resultDiv.innerHTML = "الاسم: <strong>يوسف زيرق</strong><br>النتيجة: <span style='color: red;'>راسب</span><br>المعدل: 4.86";
+    const regInput = document.getElementById("regNum");
+    const searchBtn = document.getElementById("searchBtn");
+    const resultArea = document.getElementById("resultArea");
+    const nameEl = document.getElementById("studentName");
+    const avgEl = document.getElementById("studentAvg");
+    const statusEl = document.getElementById("studentStatus");
+    const rankRow = document.getElementById("rankRow");
+    const rankEl = document.getElementById("studentRank");
+    const errorMsg = document.getElementById("errorMsg");
+
+    // البحث عن الطالب عند الضغط على الزر أو مفتاح Enter
+    searchBtn.addEventListener("click", showResult);
+    regInput.addEventListener("keyup", e => {
+      if (e.key === "Enter") showResult();
+    });
+
+    function showResult() {
+      const reg = regInput.value.trim();
+      if (students[reg]) {
+        const data = students[reg];
+        nameEl.textContent = data.name;
+        avgEl.textContent = data.avg;
+        statusEl.textContent = data.status;
+
+        // إظهار أو إخفاء سطر المرتبة حسب الحاجة
+        if (data.rank) {
+          rankEl.textContent = data.rank;
+          rankRow.classList.remove("hidden");
+        } else {
+          rankRow.classList.add("hidden");
+        }
+
+        resultArea.classList.remove("hidden");
+        errorMsg.classList.add("hidden");
       } else {
-        resultDiv.innerHTML = "<span style='color: gray;'>رقم التسجيل غير موجود</span>";
+        resultArea.classList.add("hidden");
+        errorMsg.textContent = "رقم التسجيل غير موجود. يرجى التحقق والمحاولة مرة أخرى.";
+        errorMsg.classList.remove("hidden");
       }
     }
   </script>
-
 </body>
 </html>
