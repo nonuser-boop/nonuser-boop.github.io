@@ -1,206 +1,51 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>استخراج نتائج المسابقة</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-
+  <meta charset="UTF-8">
+  <title>نتائج الامتحان</title>
   <style>
-    @media print {
-      body * {
-        visibility: hidden !important;
-      }
-      #printArea, #printArea * {
-        visibility: visible !important;
-      }
-      #printArea {
-        position: absolute;
-        inset: 0;
-        padding: 2rem;
-      }
+    body {
+      direction: rtl;
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      text-align: center;
+      padding-top: 50px;
+    }
+    input, button {
+      font-size: 18px;
+      padding: 10px;
+      margin: 10px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      color: green;
     }
   </style>
 </head>
+<body>
 
-<body class="bg-gray-100 p-6 font-sans">
-  <div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center">منصة استخراج نتائج المسابقة</h1>
+  <h2>اِسْتَظْهِر نتيجتك</h2>
 
-    <!-- نموذج البحث -->
-    <form id="lookupForm" class="space-y-4" onsubmit="event.preventDefault(); lookup();">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <label class="block">
-          <span class="text-gray-700">الاسم</span>
-          <input id="firstName" type="text" required placeholder="مثال: أمين"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200" />
-        </label>
+  <input type="text" id="regNumber" placeholder="أدخل رقم التسجيل">
+  <button onclick="checkResult()">عرض النتيجة</button>
 
-        <label class="block">
-          <span class="text-gray-700">اللقب</span>
-          <input id="lastName" type="text" required placeholder="مثال: بوشامة"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200" />
-        </label>
+  <div id="result"></div>
 
-        <label class="block md:col-span-2">
-          <span class="text-gray-700">رقم التسجيل</span>
-          <input id="regNumber" type="text" required placeholder="مثال: 1234567"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200" />
-        </label>
-      </div>
-
-      <div class="flex justify-end">
-        <button type="submit"
-          class="px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
-          عرض النتيجة
-        </button>
-      </div>
-    </form>
-
-    <!-- بطاقة النتيجة -->
-    <div id="resultCard" class="hidden mt-6">
-      <div id="printArea" class="bg-white border border-gray-300 rounded-lg p-4 space-y-4">
-        <h2 class="text-xl font-semibold text-center">بطاقة نتيجــة المترشح</h2>
-        <div class="grid grid-cols-2 gap-4 text-lg">
-          <div><span class="font-semibold">الاسم:</span> <span id="resFirstName"></span></div>
-          <div><span class="font-semibold">اللقب:</span> <span id="resLastName"></span></div>
-          <div><span class="font-semibold">رقم التسجيل:</span> <span id="resReg"></span></div>
-          <div><span class="font-semibold">المعدل:</span> <span id="resAvg"></span></div>
-          <div class="col-span-2"><span class="font-semibold">الحالة:</span> <span id="resStatus" class="font-bold"></span></div>
-        </div>
-
-        <table class="min-w-full border border-gray-300 text-center mt-4">
-          <thead class="bg-gray-200">
-            <tr>
-              <th class="border border-gray-300 px-2 py-1">المادة</th>
-              <th class="border border-gray-300 px-2 py-1">العلامة</th>
-            </tr>
-          </thead>
-          <tbody id="marksBody"></tbody>
-        </table>
-      </div>
-
-      <div class="flex justify-end mt-4">
-        <button id="printBtn" type="button"
-          class="px-6 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition">
-          طباعة النتيجة
-        </button>
-      </div>
-    </div>
-
-    <!-- إشعار الخطأ -->
-    <div id="errorAlert" class="hidden mt-6 p-4 bg-red-100 text-red-800 rounded-lg text-center"></div>
-  </div>
-
-  <!-- سكريبت -->
   <script>
-    const candidates = [
-      {
-        firstName: 'أمين',
-        lastName: 'بوشامة',
-        regNumber: '1234567',
-        average: 8.75,
-        status: 'ناجح - ينتقل إلى الدور النهائي',
-        marks: {
-          'اللغة العربية': 9,
-          'الرياضيات': 7.5,
-          'اللغة الإنجليزية': 10,
-          'العلوم الإسلامية': 8.5
-        }
-      },
-      {
-        firstName: 'شيماء',
-        lastName: 'بن دحمان',
-        regNumber: '5550707',
-        average: 7.31,
-        status: 'ناجحة - الانتقال للدور النهائي الاخير',
-        marks: {
-          'اللغة العربية': 9,
-          'الرياضيات': 7,
-          'اللغة الإنجليزية': 5
-        }
-      },
-      {
-        firstName: 'يوسف',
-        lastName: 'زيرق',
-        regNumber: '5550708',
-        average: 4.25,
-        status: 'ناجح - الانتقال للدور النهائي و الاخير',
-        marks: {
-          'معدل الدورة الأولى': 4,
-          'علوم إسلامية': 5,
-          'اللغة الإنجليزية': 4,
-          'اللغة العربية': 4
-        }
-      },
-      {
-        firstName: 'لؤي',
-        lastName: 'جابوري',
-        regNumber: '5550709',
-        average: 4.04,
-        status: 'راسب',
-        marks: {
-          'الرياضة': 3,
-          'الرياضيات': 5,
-          'معدل الدورة الأولى': 2.81,
-          'العلوم الإسلامية': 6
-        }
+    function checkResult() {
+      var reg = document.getElementById("regNumber").value;
+      var resultDiv = document.getElementById("result");
+
+      if (reg === "5550707") {
+        resultDiv.innerHTML = "الاسم: <strong>شيماء بن دحمان</strong><br>النتيجة: <span style='color: green;'>ناجحة</span><br>المعدل: 6.18";
+      } else if (reg === "5550708") {
+        resultDiv.innerHTML = "الاسم: <strong>يوسف زيرق</strong><br>النتيجة: <span style='color: red;'>راسب</span><br>المعدل: 4.86";
+      } else {
+        resultDiv.innerHTML = "<span style='color: gray;'>رقم التسجيل غير موجود</span>";
       }
-    ];
-
-    function lookup() {
-      const fn = document.getElementById('firstName').value.trim().toLowerCase();
-      const ln = document.getElementById('lastName').value.trim().toLowerCase();
-      const reg = document.getElementById('regNumber').value.trim();
-
-      const errorAlert = document.getElementById('errorAlert');
-      const resultCard = document.getElementById('resultCard');
-
-      errorAlert.classList.add('hidden');
-      resultCard.classList.add('hidden');
-
-      if (!fn || !ln || !reg) {
-        errorAlert.textContent = 'يرجى ملء جميع الحقول.';
-        errorAlert.classList.remove('hidden');
-        return;
-      }
-
-      const candidate = candidates.find(
-        c =>
-          c.firstName.trim().toLowerCase() === fn &&
-          c.lastName.trim().toLowerCase() === ln &&
-          c.regNumber.trim() === reg
-      );
-
-      if (!candidate) {
-        errorAlert.textContent = 'عذراً، لم يتم العثور على نتيجة بهذه البيانات.';
-        errorAlert.classList.remove('hidden');
-        return;
-      }
-
-      document.getElementById('resFirstName').textContent = candidate.firstName;
-      document.getElementById('resLastName').textContent = candidate.lastName;
-      document.getElementById('resReg').textContent = candidate.regNumber;
-      document.getElementById('resAvg').textContent = candidate.average.toFixed(2);
-      document.getElementById('resStatus').textContent = candidate.status;
-
-      const marksBody = document.getElementById('marksBody');
-      marksBody.innerHTML = '';
-
-      for (const [subject, mark] of Object.entries(candidate.marks)) {
-        marksBody.innerHTML += `
-          <tr>
-            <td class="border border-gray-300 px-2 py-1">${subject}</td>
-            <td class="border border-gray-300 px-2 py-1">${mark}</td>
-          </tr>`;
-      }
-
-      resultCard.classList.remove('hidden');
-      resultCard.scrollIntoView({ behavior: 'smooth' });
     }
-
-    document.getElementById('printBtn').addEventListener('click', () => window.print());
   </script>
+
 </body>
 </html>
