@@ -26,13 +26,43 @@
 
   <script>
     // قاعدة بيانات الطلاب
+    const students = {<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة استظهار النتائج</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 space-y-4">
+    <h1 class="text-2xl font-bold text-center mb-4">منصة استظهار النتائج</h1>
+
+    <label for="regNum" class="block font-medium mb-2">أدخل رقم التسجيل:</label>
+    <input type="text" id="regNum" class="w-full border rounded-xl p-2 text-right focus:outline-none focus:ring" placeholder="مثال: 5550702" />
+
+    <button id="searchBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2 transition">استظهار</button>
+
+    <div id="resultArea" class="hidden mt-4 border-t pt-4 space-y-2">
+      <p><span class="font-semibold">الاسم و اللقب: </span><span id="studentName"></span></p>
+      <p><span class="font-semibold">المعدل: </span><span id="studentAvg"></span></p>
+      <p><span class="font-semibold">الحالة: </span><span id="studentStatus"></span></p>
+      <p id="rankRow"><span class="font-semibold">المرتبة: </span><span id="studentRank"></span></p>
+    </div>
+
+    <p id="errorMsg" class="hidden text-red-600 text-center font-semibold"></p>
+  </div>
+
+  <script>
+    // قاعدة بيانات الطلاب
     const students = {
-      "5550702": { name: "قيرود ابتسام", avg: "5.01", status: "راسبة", rank: null },
-      "5550710": { name: "نوح بن دحمان", avg: "5.01", status: "ناجح", rank: "الرابعة" },
-      "5550712": { name: "مايا قيرود", avg: "6.46", status: "ناجحة", rank: "الثانية" },
-      "5550707": { name: "شيماء بن دحمان", avg: "5.57", status: "ناجحة", rank: "الثالثة" },
-      "5550711": { name: "زيرق الياس", avg: "3.86", status: "راسب", rank: null },
-      "5550713": { name: "قيرود سمية", avg: "7.43", status: "ناجحة", rank: "الأولى" }
+      "5550702": { name: "قيرود ابتسام", avg: "0.00", status: "راسبة", rank: null },
+      "5550710": { name: "نوح بن دحمان", avg: "0.00", status: "ناجح", rank: null },
+      "5550712": { name: "مايا قيرود", avg: "5.03", status: "راسبة", rank: null },
+      "5550707": { name: "شيماء بن دحمان", avg: "6.06", status: "ناجحة", rank: "الثانية" },
+      "5550711": { name: "زيرق الياس", avg: "5.50", status: "راسب", rank: null },
+      "5550713": { name: "قيرود سمية", avg: "7.02", status: "ناجحة", rank: "الأولى" }
     };
 
     const regInput = document.getElementById("regNum");
