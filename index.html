@@ -1,110 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>منصة استظهار النتائج</title>
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
-  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 space-y-4">
-    <h1 class="text-2xl font-bold text-center mb-4">منصة استظهار النتائج</h1>
-
-    <label for="regNum" class="block font-medium mb-2">أدخل رقم التسجيل:</label>
-    <input type="text" id="regNum" class="w-full border rounded-xl p-2 text-right focus:outline-none focus:ring" placeholder="مثال: 5550702" />
-
-    <button id="searchBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2 transition">استظهار</button>
-
-    <div id="resultArea" class="hidden mt-4 border-t pt-4 space-y-2">
-      <p><span class="font-semibold">الاسم و اللقب: </span><span id="studentName"></span></p>
-      <p><span class="font-semibold">المعدل: </span><span id="studentAvg"></span></p>
-      <p><span class="font-semibold">الحالة: </span><span id="studentStatus"></span></p>
-      <p id="rankRow"><span class="font-semibold">المرتبة: </span><span id="studentRank"></span></p>
-    </div>
-
-    <p id="errorMsg" class="hidden text-red-600 text-center font-semibold"></p>
-  </div>
-
-  <script>
-    // قاعدة بيانات الطلاب
-    const students = {<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>منصة استظهار النتائج</title>
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
-  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 space-y-4">
-    <h1 class="text-2xl font-bold text-center mb-4">منصة استظهار النتائج</h1>
-
-    <label for="regNum" class="block font-medium mb-2">أدخل رقم التسجيل:</label>
-    <input type="text" id="regNum" class="w-full border rounded-xl p-2 text-right focus:outline-none focus:ring" placeholder="مثال: 5550702" />
-
-    <button id="searchBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2 transition">استظهار</button>
-
-    <div id="resultArea" class="hidden mt-4 border-t pt-4 space-y-2">
-      <p><span class="font-semibold">الاسم و اللقب: </span><span id="studentName"></span></p>
-      <p><span class="font-semibold">المعدل: </span><span id="studentAvg"></span></p>
-      <p><span class="font-semibold">الحالة: </span><span id="studentStatus"></span></p>
-      <p id="rankRow"><span class="font-semibold">المرتبة: </span><span id="studentRank"></span></p>
-    </div>
-
-    <p id="errorMsg" class="hidden text-red-600 text-center font-semibold"></p>
-  </div>
-
-  <script>
-    // قاعدة بيانات الطلاب
-    const students = {
-      "5550702": { name: "قيرود ابتسام", avg: "0.00", status: "راسبة", rank: null },
-      "5550710": { name: "نوح بن دحمان", avg: "0.00", status: "ناجح", rank: null },
-      "5550712": { name: "مايا قيرود", avg: "5.03", status: "راسبة", rank: null },
-      "5550707": { name: "شيماء بن دحمان", avg: "6.06", status: "ناجحة", rank: "الثانية" },
-      "5550711": { name: "زيرق الياس", avg: "5.50", status: "راسب", rank: null },
-      "5550713": { name: "قيرود سمية", avg: "7.02", status: "ناجحة", rank: "الأولى" }
-    };
-
-    const regInput = document.getElementById("regNum");
-    const searchBtn = document.getElementById("searchBtn");
-    const resultArea = document.getElementById("resultArea");
-    const nameEl = document.getElementById("studentName");
-    const avgEl = document.getElementById("studentAvg");
-    const statusEl = document.getElementById("studentStatus");
-    const rankRow = document.getElementById("rankRow");
-    const rankEl = document.getElementById("studentRank");
-    const errorMsg = document.getElementById("errorMsg");
-
-    // البحث عن الطالب عند الضغط على الزر أو مفتاح Enter
-    searchBtn.addEventListener("click", showResult);
-    regInput.addEventListener("keyup", e => {
-      if (e.key === "Enter") showResult();
-    });
-
-    function showResult() {
-      const reg = regInput.value.trim();
-      if (students[reg]) {
-        const data = students[reg];
-        nameEl.textContent = data.name;
-        avgEl.textContent = data.avg;
-        statusEl.textContent = data.status;
-
-        // إظهار أو إخفاء سطر المرتبة حسب الحاجة
-        if (data.rank) {
-          rankEl.textContent = data.rank;
-          rankRow.classList.remove("hidden");
-        } else {
-          rankRow.classList.add("hidden");
-        }
-
-        resultArea.classList.remove("hidden");
-        errorMsg.classList.add("hidden");
-      } else {
-        resultArea.classList.add("hidden");
-        errorMsg.textContent = "رقم التسجيل غير موجود. يرجى التحقق والمحاولة مرة أخرى.";
-        errorMsg.classList.remove("hidden");
-      }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Barbie Quiz Contest Results</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f9d5ec, #fce4f5);
+      color: #333;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 60px 20px;
     }
-  </script>
+
+    .container {
+      background-color: white;
+      max-width: 600px;
+      margin: auto;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #d63384;
+      font-size: 2.5em;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+
+    .closed {
+      margin-top: 30px;
+      padding: 12px 25px;
+      background-color: #ffc0cb;
+      display: inline-block;
+      border-radius: 10px;
+      font-weight: bold;
+      color: #fff;
+      font-size: 1.1em;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Barbie Quiz Contest</h1>
+    <p class="closed">🔒 This page is currently closed</p>
+    <p>The results will be available soon.<br>Please check back later!</p>
+    <footer>&copy; 2025 Barbie Contest Team</footer>
+  </div>
 </body>
 </html>
