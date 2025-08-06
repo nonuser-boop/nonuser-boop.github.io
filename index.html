@@ -2,61 +2,108 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Barbie Quiz Contest Results</title>
+  <title>Barbie Quiz Results</title>
   <style>
     body {
-      background: linear-gradient(135deg, #f9d5ec, #fce4f5);
-      color: #333;
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      padding: 60px 20px;
+      background-color: #ffe4ec;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
-
-    .container {
-      background-color: white;
-      max-width: 600px;
-      margin: auto;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    }
-
     h1 {
       color: #d63384;
-      font-size: 2.5em;
     }
-
-    p {
-      font-size: 1.2em;
-      margin-top: 20px;
+    .container {
+      background-color: #fff0f5;
+      border: 2px solid #d63384;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 10px #f8a5c2;
     }
-
-    .closed {
-      margin-top: 30px;
-      padding: 12px 25px;
-      background-color: #ffc0cb;
-      display: inline-block;
+    input {
+      padding: 10px;
       border-radius: 10px;
-      font-weight: bold;
-      color: #fff;
-      font-size: 1.1em;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border: 1px solid #d63384;
+      width: 200px;
     }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.9em;
-      color: #777;
+    button {
+      background-color: #d63384;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-left: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    .passed {
+      color: green;
+    }
+    .failed {
+      color: red;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Barbie Quiz Contest</h1>
-    <p class="closed">🔒 This page is currently closed</p>
-    <p>The results will be available soon.<br>Please check back later!</p>
-    <footer>&copy; 2025 Barbie Contest Team</footer>
+    <h1>Barbie Quiz Results</h1>
+    <input type="text" id="keyInput" placeholder="Enter your Inscription Key">
+    <button onclick="checkResult()">Check</button>
+    <div class="result" id="resultDisplay"></div>
   </div>
+
+  <script>
+    const results = {
+      "10003": { name: "Jade Louis", score: "10/10", result: "Passed – Goes to next round" },
+      "10027": { name: "Alice Reyna Contreras", score: "8/10", result: "Passed – Goes to next round" },
+      "10011": { name: "Syeda Tahsin Sanjana", score: "8/10", result: "Passed – Goes to next round" },
+      "10004": { name: "Muskan", score: "8/10", result: "Passed – Goes to next round" },
+      "10010": { name: "Triniti Williams", score: "8/10", result: "Passed – Goes to next round" },
+      "10001": { name: "Tatihanna Hanchard", score: "8/10", result: "Passed – Goes to next round" },
+      "10020": { name: "Ky’Leigh Garrett", score: "8/10", result: "Passed – Goes to next round" },
+      "10009": { name: "Rabiatul Adawiyah binti Shuib", score: "8/10", result: "Passed – Goes to next round" },
+      "10002": { name: "Grace Fieldwick", score: "8/10", result: "Passed – Goes to next round" },
+      "10016": { name: "Nada Elsayed", score: "8/10", result: "Passed – Goes to next round" },
+      "10017": { name: "Archismita Podder", score: "8/10", result: "Failed" },
+      "10023": { name: "Farzana", score: "8/10", result: "Failed" },
+      "10022": { name: "Elrick John R Lopez", score: "8/10", result: "Failed" },
+      "10007": { name: "O’Raellya Tindal", score: "8/10", result: "Failed" },
+      "10018": { name: "Nabani Prava Panigrahi", score: "8/10", result: "Failed" },
+      "10024": { name: "Emma Grace Ray", score: "8/10", result: "Failed" },
+      "10019": { name: "Ntiyisiso Mashaba", score: "8/10", result: "Failed" },
+      "10021": { name: "Mary Mae Laborte", score: "8/10", result: "Failed" },
+      "10015": { name: "Laycee Powell", score: "8/10", result: "Failed" },
+      "10012": { name: "Katia Jean", score: "8/10", result: "Failed" },
+      "10025": { name: "Alexander Wayne Vance", score: "6/10", result: "Failed" },
+      "10013": { name: "Dahamli thisasna", score: "6/10", result: "Failed" },
+      "10005": { name: "Safa Ahmed", score: "6/10", result: "Failed" },
+      "10006": { name: "Therinz Gabrielle", score: "6/10", result: "Failed" },
+      "10008": { name: "Eric Sebastian", score: "6/10", result: "Failed" },
+      "10026": { name: "Johanna Coker", score: "6/10", result: "Failed" },
+      "10014": { name: "Rose", score: "6/10", result: "Failed" }
+    };
+
+    function checkResult() {
+      const key = document.getElementById('keyInput').value.trim();
+      const display = document.getElementById('resultDisplay');
+      if (results[key]) {
+        const r = results[key];
+        const cssClass = r.result.toLowerCase().includes('passed') ? 'passed' : 'failed';
+        display.innerHTML = `<div class="${cssClass}"><strong>${r.name}</strong><br>Score: ${r.score}<br>Result: ${r.result}</div>`;
+      } else {
+        display.innerHTML = "No result found for this Inscription Key.";
+      }
+    }
+  </script>
 </body>
 </html>
+
+
