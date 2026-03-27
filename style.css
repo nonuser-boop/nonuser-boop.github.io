@@ -1,0 +1,171 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY + BACKGROUND IMAGE */
+body {
+    font-family: 'Segoe UI', sans-serif;
+
+    background: url("images/tekken-bg.jpeg") no-repeat center center fixed;
+    background-size: cover;
+
+    color: white;
+}
+
+/* DARK OVERLAY (makes text readable) */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.65);
+    z-index: -1;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 40px;
+
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+header h1 {
+    color: #ff2e2e;
+    font-size: 28px;
+}
+
+/* NAVIGATION */
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #ff2e2e;
+}
+
+/* GRID LAYOUT */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+
+    padding: 50px;
+}
+
+/* CARDS */
+.card {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+
+    padding: 30px;
+    text-align: center;
+
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    transition: 0.3s;
+}
+
+/* CARD HOVER EFFECT */
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4);
+}
+
+/* BUTTON */
+.btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+
+    background: #ff2e2e;
+    color: white;
+
+    border-radius: 8px;
+    text-decoration: none;
+
+    transition: 0.3s;
+}
+
+/* BUTTON HOVER */
+.btn:hover {
+    background: #ff0000;
+    transform: scale(1.05);
+}
+
+/* IMAGES (optional) */
+img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+}
+.logo {
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px red; }
+    to { text-shadow: 0 0 25px red; }
+}
+.back-btn {
+    padding: 20px;
+}
+
+.back-btn button {
+    background: #ff2e2e;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.back-btn button:hover {
+    background: #ff0000;
+    transform: scale(1.05);
+}
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+/* make cover full width */
+.cover-card {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+/* make image square */
+.cover-card img {
+    width: 300px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    padding: 50px;
+}
