@@ -9,9 +9,9 @@
 // generate_pdfs.py (يقرأ نفس شكل البيانات وينتج ملفًا لكل سجل).
 // ------------------------------------------------------------------
 const RESULTS_DB = [
-  { reg:"0001", name:"لؤي جابوربي ",        track:"علوم تجريبية", avg:"14.85", school:"متوسطة الأمير عبد القادر", wilaya:"سطيف", status:"pass", pdf:"pdfs/0001.pdf" },
-  { reg:"0002", name:"ياسمين شريط",        track:"آداب وفلسفة",   avg:"12.40", school:"متوسطة ابن خلدون",         wilaya:"سطيف", status:"pass", pdf:"pdfs/0002.pdf" },
-  { reg:"0003", name:"عبد الرؤوف مزياني",  track:"تقني رياضي",    avg:"15.20", school:"متوسطة الشهيد بوعزيز",     wilaya:"سطيف", status:"pass", pdf:"pdfs/0003.pdf" },
+  { reg:"0001", name:"لؤي جابوربي ",        track:"علوم تجريبية", avg:"14.85", school:"متوسطة الأمير عبد القادر", wilaya:"سطيف", status:"pass", pdf:"0001.pdf" },
+  { reg:"0002", name:"ياسمين شريط",        track:"آداب وفلسفة",   avg:"12.40", school:"متوسطة ابن خلدون",         wilaya:"سطيف", status:"pass", pdf:"0002.pdf" },
+  { reg:"0003", name:"عبد الرؤوف مزياني",  track:"تقني رياضي",    avg:"15.20", school:"متوسطة الشهيد بوعزيز",     wilaya:"سطيف", status:"pass", pdf:"0003.pdf" },
   { reg:"20261003456", name:"إيمان بوداود",       track:"لغات أجنبية",   avg:"13.65", school:"متوسطة العقيد لطفي",       wilaya:"سطيف", status:"pass", pdf:"pdfs/20261003456.pdf" },
   { reg:"20261007890", name:"محمد أمين طواهرية",  track:"—",             avg:"08.10", school:"متوسطة الإخوة بوعدو",      wilaya:"سطيف", status:"fail", pdf:"pdfs/20261007890.pdf" },
 ];
