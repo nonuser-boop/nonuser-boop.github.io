@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نتائج المسابقة</title>
+
+<style>
+body{
+    font-family: Tahoma, Arial, sans-serif;
+    background:#f2f5f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+
+.container{
+    background:white;
+    padding:30px;
+    width:420px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,.15);
+    text-align:center;
+}
+
+h2{
+    color:#0066cc;
+}
+
+input{
+    width:90%;
+    padding:12px;
+    font-size:18px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+button{
+    background:#0066cc;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    font-size:17px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#004f9f;
+}
+
+.result{
+    margin-top:20px;
+    padding:15px;
+    border-radius:10px;
+    background:#eef6ff;
+    display:none;
+}
+
+.success{
+    color:green;
+    font-weight:bold;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>استظهار نتائج المسابقة</h2>
+
+<input type="text" id="reg" placeholder="أدخل رقم التسجيل">
+
+<br>
+
+<button onclick="showResult()">إظهار النتيجة</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+const results = {
+
+"0001":{
+name:"لؤي جابوربي",
+status:"ناجح",
+rank:"الرابعة",
+average:"0.13 ر"
+},
+
+"0002":{
+name:"شيماء بن دحمان",
+status:"ناجحة",
+rank:"الأولى",
+average:"16.89"
+},
+
+"0003":{
+name:"نوح بن دحمان",
+status:"ناجح",
+rank:"الثانية",
+average:"3.86"
+},
+
+"0004":{
+name:"الياس زيرق",
+status:"ناجح",
+rank:"الثالثة",
+average:"1.45"
+}
+
+};
+
+function showResult(){
+
+const reg=document.getElementById("reg").value.trim();
+
+const div=document.getElementById("result");
+
+if(results[reg]){
+
+const r=results[reg];
+
+div.style.display="block";
+
+div.innerHTML=`
+<h3>${r.name}</h3>
+
+<p class="success">${r.status}</p>
+
+<p><b>الترتيب:</b> ${r.rank}</p>
+
+<p><b>المعدل:</b> ${r.average}</p>
+
+`;
+
+}else{
+
+div.style.display="block";
+
+div.innerHTML="<span style='color:red'>رقم التسجيل غير موجود.</span>";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
